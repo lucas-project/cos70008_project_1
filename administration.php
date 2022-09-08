@@ -113,6 +113,8 @@ if($_SESSION["email"]) {
                 $result = mysqli_query($conn, $query);
 
                 if ($result) {
+                    $total_revenue = 0;
+                    $rowcount = mysqli_num_rows( $result );
                     echo "<h3>Administration Interface</h3>";
                     $record = mysqli_fetch_assoc($result);
                     if ($record) {
@@ -143,10 +145,12 @@ if($_SESSION["email"]) {
                             echo "<td>{$record['receiverState']}</td>";
                             echo "</tr>";
                             $record = mysqli_fetch_assoc($result);
+                            $total_revenue+=(int)$record['price'];
 
                         }
                         echo "</table>";
                         mysqli_free_result($result);
+                        echo "Total requests is ".$rowcount." and total revenue is ".$total_revenue;
                     } else
                         echo "<p>No record in the application table.</p>";
                 } else {
