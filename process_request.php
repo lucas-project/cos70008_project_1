@@ -24,6 +24,17 @@ session_start();
     <body id="page-top">
 
             <?php
+            //import PHPMailer class
+            use PHPMailer\PHPMailer\PHPMailer;
+            use PHPMailer\PHPMailer\SMTP;
+            use PHPMailer\PHPMailer\Exception;
+
+            //include library files
+            require "PHPMailer/Exception.php";
+            require "PHPMailer/PHPMailer.php";
+            require "PHPMailer/SMTP.php";
+
+
             if($_SESSION["email"]) {
                 if (!isset($_POST["description"])) {
                     header ("location: index.php");
@@ -59,25 +70,14 @@ session_start();
                     $suburb = sanitise_input($_POST["suburb"]);
                     if ($suburb == "")
                         $err_msg .= "<p>Please enter your suburb.</p>";
-                    else if (!preg_match("/^[a-zA-Z]{2,20}$/", $suburb))
+                    else if (!preg_match("/^[a-zA-Z ]{2,20}$/", $suburb))
                         $err_msg .= "<p>Suburb only contains letters between 2 and 20.</p>";
 
-                    if (!isset($_POST["preferred_day"]))
-                        $err_msg .= "<p>Please select preferred day of pickup.</p>";
-                    else {
-                        $preferred_day = sanitise_input($_POST["preferred_day"]);
-                    }
 
-                    if (!isset($_POST["preferred_month"]))
-                        $err_msg .= "<p>Please select preferred month of pickup.</p>";
+                    if (!isset($_POST["preferredDate"]))
+                        $err_msg .= "<p>Please select preferred date of pickup.</p>";
                     else {
-                        $preferred_month = $_POST["preferred_month"];
-                    }
-
-                    if (!isset($_POST["preferred_year"]))
-                        $err_msg .= "<p>Please select preferred year of pickup.</p>";
-                    else {
-                        $preferred_year = $_POST["preferred_year"];
+                        $preferredDate = $_POST["preferredDate"];
                     }
 
                     if (!isset($_POST["preferred_time"]))
@@ -122,7 +122,7 @@ session_start();
                     }
 
                     date_default_timezone_set('Australia/Melbourne');
-                    $request_date = date('d-m-y h:i:s');
+                    $request_date = date('y-m-d');
                     // connect to db, create table and insert record
                     require_once("settings.php");
                     $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
@@ -130,13 +130,20 @@ session_start();
                     if (!$conn) {
                         echo "<p>Connection is failed.</p>";
                     } else {
-                        $sql_table = "application";
-                        $insert_query = "INSERT INTO request (
-                         request_date, description, weight, address, suburb, preferredDay, preferredMonth, preferredYear, preferredTime, 
-                         minute, receiver,receiverAddress, receiverSuburb, receiverState)
+                        if ((int)$weight<=2){
+                            $price=2;
+                        }else {
+                            $price = ($weight-2)*2+2;
+                        }
+
+                        $customer_number = $_SESSION['customer_number'];
+                        $customer_name = $_SESSION['name'];
+                        $insert_query = "INSERT INTO request  (
+                         request_date, description, weight, address, suburb, preferredDate, preferredTime, 
+                         minute, receiver,receiverAddress, receiverSuburb, receiverState, Customer_Id, customer_name, price)
                                     VALUES (
-                                            '$request_date','$description','$weight','$address','$suburb','$preferred_day','$preferred_month','$preferred_year','$preferred_time',
-                                            '$preferred_minute','$receiver','$receiver_address','$receiver_suburb','$receiver_state'
+                                            '$request_date','$description','$weight','$address','$suburb','$preferredDate','$preferred_time',
+                                            '$preferred_minute','$receiver','$receiver_address','$receiver_suburb','$receiver_state','$customer_number', '$customer_name','$price'
                                             )";
                         $result = mysqli_query($conn, $insert_query);
                         if ($result){
@@ -144,33 +151,52 @@ session_start();
                             include_once "head.inc";
                             include_once "nav.inc";
 
-                            if ((int)$weight<=2){
-                                $price=2;
-                            }else {
-                                $price = ($weight-2)*2+2;
-                            }
 
-                            $to = $_SESSION["email"];
-                            $subject = "Shipping request with ShipOnline";
-                            $message = "<b>Dear ".$_SESSION["email"].", thank you for using ShipOnline! Your request number is , the cost is . We will pick up the item at on .</b>";
+                            //create new PHPMailer instance
+                            $mail = new PHPMailer;
+
+                            //configuration settings
+                            $mail->isSMTP();
+                            $mail->Host = 'smpt.gmail.com';
+                            $mail->SMTPAuth = true;
+                            $mail->Username = "lucas qin";
+                            $mail->Password = "qwertyuiop321";
+                            $mail->SMTPSecure = 'ssl';
+                            $mail->Port = 466;
+
+                            //sender
+                            $mail->setFrom('103527269.lucas.qin@gmail.com','lucas');
+
+                            //receiver
+                            $mail->addAddress($_SESSION["email"]);
+                            //email format
+                            $mail->isHTML(true);
+
+                            $mail->Subject = "Shipping request with ShipOnline";
+                            $bodyContent = "<b>Dear ".$_SESSION["name"].", thank you for using ShipOnline! Your request number is , the cost is . We will pick up the item at on .</b>";
+                            $mail->Body = $bodyContent;
                             $header = "From:103527269@student.swin.edu.au \r\n";
-                            $sendEmail = mail ($to,$subject,$message,$header);
-
-                            if($sendEmail) {
-                                echo "Message sent successfully...";
-                            }else {
-                                echo "Message could not be sent...";
+                            //send email
+                            if ($mail->send()){
+                                echo "Email has been sent";
+                            }else{
+                                echo "Email failed to send. PHPMailer error:".$mail->ErrorInfo;
                             }
+
+
                             
                             echo "<br><br><br><br><br><br><br><br><br>";
-                            echo "<p>Thank you! Your request number is " . mysqli_insert_id($conn) . ". The cost number is $".$price.". We will pick up the item at ".$preferred_time.":".$preferred_minute." on ".$preferred_day.", ".$preferred_month.". </p>";
+                            echo "<p>Thank you! Your request number is " . mysqli_insert_id($conn) . ". The cost number is $".$price.". We will pick up the item at ".$preferred_time.":".$preferred_minute." on ".$preferredDate.". </p>";
                             echo "<p>We have sent a confirmation email to ".$_SESSION["email"].".</p>";
+
+
 
                             echo "<a type='button' class='btn btn-primary' href='index.php'>Return</a>";
                             echo "<br><br><br><br><br><br><br><br><br>";
                             include_once "footer.inc";}
                         else
                             echo "<p>Failed to insert.</p>";
+
 
                         mysqli_close($conn);
                     }

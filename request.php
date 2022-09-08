@@ -84,49 +84,7 @@ include_once "nav.inc";
                     <label class="required">Preferred date: </label>
                     <div class="form-row">
                         <div class="col-4">
-                            <select id="preferred_day" name="preferred_day" required="required" class="form-control">
-                                <div class="dropdown-menu">
-                                    <option value="" class="dropdown-item">Select a day</option><option value="1" class="dropdown-item">01</option>
-                                    <option value="2" class="dropdown-item">02</option><option value="3" class="dropdown-item">03</option>
-                                    <option value="4" class="dropdown-item">04</option><option value="5" class="dropdown-item">05</option>
-                                    <option value="6" class="dropdown-item">06</option><option value="7" class="dropdown-item">07</option>
-                                    <option value="8" class="dropdown-item">08</option><option value="9" class="dropdown-item">09</option>
-                                    <option value="10" class="dropdown-item">10</option><option value="11" class="dropdown-item">11</option>
-                                    <option value="12" class="dropdown-item">12</option><option value="13" selected="selected" class="dropdown-item">13</option>
-                                    <option value="14" class="dropdown-item">14</option><option value="15" class="dropdown-item">15</option>
-                                    <option value="16" class="dropdown-item">16</option><option value="17" class="dropdown-item">17</option>
-                                    <option value="18" class="dropdown-item">18</option><option value="19" class="dropdown-item">19</option>
-                                    <option value="20" class="dropdown-item">20</option><option value="21" class="dropdown-item">21</option>
-                                    <option value="22" class="dropdown-item">22</option><option value="23" class="dropdown-item">23</option>
-                                    <option value="24" class="dropdown-item">24</option><option value="25" class="dropdown-item">25</option>
-                                    <option value="26" class="dropdown-item">26</option><option value="27" class="dropdown-item">27</option>
-                                    <option value="28" class="dropdown-item">28</option><option value="29" class="dropdown-item">29</option>
-                                    <option value="30" class="dropdown-item">30</option><option value="31" class="dropdown-item">31</option>
-                                </div>
-                            </select>
-                        </div>
-                        <div class="col-4">
-                            <select id="preferred_month" name="preferred_month" required="required" class="form-control">
-                                <div class="dropdown-menu">
-                                    <option value="" class="dropdown-item">Select month</option><option value="Jan" class="dropdown-item">Jan</option>
-                                    <option value="Feb" class="dropdown-item">Feb</option><option value="Mar" class="dropdown-item">Mar</option>
-                                    <option value="April" class="dropdown-item">April</option><option value="May" class="dropdown-item">May</option>
-                                    <option value="June" selected="selected" class="dropdown-item">June</option>
-                                    <option value="July" class="dropdown-item">July</option><option value="Aug" class="dropdown-item">Aug</option>
-                                    <option value="Sep" class="dropdown-item">Sep</option><option value="Oct" class="dropdown-item">Oct</option>
-                                    <option value="Nov" class="dropdown-item">Nov</option><option value="Dec" class="dropdown-item">Dec</option>
-                                </div>
-                            </select>
-
-                        </div>
-                        <div class="col-4">
-                            <select id="preferred_year" name="preferred_year" required="required" class="form-control">
-                                <div class="dropdown-menu">
-                                    <option value=""  class="dropdown-item">Select year</option>
-                                    <option value="2022" selected="selected"  class="dropdown-item">2022</option>
-                                    <option value="2023"  class="dropdown-item">2023</option>
-                                </div>
-                            </select>
+                           <input type="date" name="preferredDate">
                         </div>
                     </div>
 

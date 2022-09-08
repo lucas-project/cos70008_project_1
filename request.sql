@@ -5,9 +5,7 @@ CREATE TABLE request (
      weight varchar(10) NOT NULL,
      address varchar(20) NOT NULL,
      suburb varchar(10) NOT NULL,
-     preferredDay ENUM('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'),
-     preferredMonth ENUM('Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct','Nov','Dec'),
-     preferredYear varchar(10) NOT NULL,
+     preferredDate DATE,
      preferredTime ENUM('7','8','9','10','11','12','13','14','15','16','17','18','19','20'),
      minute varchar(10) NOT NULL,
      receiver varchar(15) NOT NULL,
@@ -16,6 +14,7 @@ CREATE TABLE request (
      receiverState ENUM('Australian Capital Territory','New South Wales','Northern Territory','Queensland','South Australia','Tasmania','Victoria','Western Australia'),
      customer_name varchar(20),
      Customer_Id INT(10),
+     price INT(10),
      INDEX par_ind (Customer_Id),
      PRIMARY KEY (request_number),
      CONSTRAINT fk_customer FOREIGN KEY (Customer_Id)

@@ -23,6 +23,8 @@ if(count($_POST)>0) {
 
         $_SESSION["email"] = $row['email'];
         $_SESSION["password"] = $row['password'];
+        $_SESSION["customer_number"] = $row['customer_number'];
+        $_SESSION["name"] = $row['name'];
     } else {
         $message = "Invalid Username or Password!";
     }
