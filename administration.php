@@ -76,7 +76,6 @@ if($_SESSION["email"]) {
         $query = "";
         $err_msg = "";
         $selected_date = "";
-        $check_type = "";
         if (isset($_POST["selected_date"])){
             $selected_date=$_POST["selected_date"];
 
@@ -87,8 +86,7 @@ if($_SESSION["email"]) {
             if (strcmp($selected_type, "request date")) {
 
                 echo "Result will be filtered by pick-up date";
-                $query = "SELECT * FROM (request JOIN register ON request.customer_number = register.customer_number) WHERE preferredDate = '$selected_date'";
-                $check_type = "pick up";
+                $query = "SELECT * FROM request WHERE preferredDate = '$selected_date'";
             } elseif (strcmp($selected_type, "pick-up date")) {
                 echo "Result will be filtered by request date";
 
@@ -113,8 +111,7 @@ if($_SESSION["email"]) {
                 echo "<br>";
                 echo "<br>";
                 $result = mysqli_query($conn, $query);
-                $rowcount = mysqli_num_rows( $result );
-                $total_revenue = 0;
+
                 if ($result) {
                     echo "<h3>Administration Interface</h3>";
                     $record = mysqli_fetch_assoc($result);
@@ -149,7 +146,6 @@ if($_SESSION["email"]) {
 
                         }
                         echo "</table>";
-                        echo "There are total of ".$rowcount." ".$check_type." requests";
                         mysqli_free_result($result);
                     } else
                         echo "<p>No record in the application table.</p>";
