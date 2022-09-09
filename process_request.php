@@ -130,6 +130,12 @@ session_start();
                         $err_msg .= "The preferred pick-up date and time need to be at least 24 hours after current time";
                     }
 
+                    if ($preferred_time == "7" && (int)$preferred_minute < 30){
+                        $err_msg .= "Sorry, we can start delivery after 7:30 am, our business time is between 7:30 to 20:30.";
+                    } elseif ($preferred_time == "20" && (int)$preferred_minute > 30 ){
+                        $err_msg .= "Sorry, we closed at 20:30, our business time is between 7:30 to 20:30.";
+                    }
+
                     if ($err_msg!=""){
                         echo $err_msg;
                         exit();
@@ -146,7 +152,6 @@ session_start();
                         }else {
                             $price = ($weight-2)*2+2;
                         }
-
 
                         $customer_number = (int)$_SESSION['customer_number'];
                         $customer_name = $_SESSION['name'];
