@@ -93,9 +93,6 @@ session_start();
                         $err_msg .= "<p>Minute only should between 1 to 60.</p>";
 
 
-
-
-
                     $receiver = sanitise_input($_POST["receiver"]);
                     if ($receiver == "")
                         $err_msg .= "<p>Please enter receiver's name.</p>";

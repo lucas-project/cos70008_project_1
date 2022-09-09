@@ -79,7 +79,6 @@ if($_SESSION["email"]) {
         if (isset($_POST["selected_date"])){
             $selected_date=$_POST["selected_date"];
 
-
         if (isset($_POST["selected_type"])) {
             $selected_type = $_POST["selected_type"];
 
@@ -92,7 +91,6 @@ if($_SESSION["email"]) {
 
                 $query = "SELECT * FROM request WHERE DATE(request_date) = '$selected_date'";
 
-
             } else {
                 $err_msg .= "<p>Please select date filter type.</p>";
             }
@@ -101,7 +99,6 @@ if($_SESSION["email"]) {
                 echo $err_msg;
                 exit();
             }
-
 
             require_once "settings.php";
             $conn = mysqli_connect($host, $user, $pwd, $sql_db);
@@ -119,52 +116,97 @@ if($_SESSION["email"]) {
                     echo "<h3>Administration Interface</h3>";
                     $record = mysqli_fetch_assoc($result);
                     if ($record) {
-                        echo "<table class='table'>";
-                        echo "<tr>";
-
-                        //echo "<th>customer number</th>";
-                        echo "<th>customer number</th>";
-                        echo "<th>request number</th>";
-                        echo "<th>item description</th>";
-                        echo "<th>weight</th>";
-                        echo "<th>pick-up suburb</th>";
-                        echo "<th>preferred pick-up date</th>";
-                        echo "<th>delivery suburb</th>";
-                        echo "<th>state</th>";
-
-                        echo "</tr>";
-
-                        while ($record) {
+                        if (strcmp($selected_type, "request date")){
+                            echo "<table class='table'>";
                             echo "<tr>";
-                            echo "<td>{$record['customer_number']}</td>";
-                            echo "<td>{$record['request_number']}</td>";
-                            echo "<td>{$record['description']}</td>";
-                            echo "<td>{$record['weight']}</td>";
-                            echo "<td>{$record['suburb']}</td>";
-                            echo "<td>{$record['preferredDate']}</td>";
-                            echo "<td>{$record['receiverSuburb']}</td>";
-                            echo "<td>{$record['receiverState']}</td>";
+
+                            //echo "<th>customer number</th>";
+                            echo "<th>customer number</th>";
+                            echo "<th>request number</th>";
+                            echo "<th>item description</th>";
+                            echo "<th>weight</th>";
+                            echo "<th>pick-up suburb</th>";
+                            echo "<th>preferred pick-up date</th>";
+                            echo "<th>delivery suburb</th>";
+                            echo "<th>state</th>";
+
                             echo "</tr>";
 
-                            $count ++;
-                            echo $record['weight'];
-                            if ($record['weight']<=2){
-                                $total_revenue += 2;
-                            }elseif ($record['weight']>=2){
-                                $total_revenue += ($record['weight']-2)*2+2;
-                            }
-                            $record = mysqli_fetch_assoc($result);
-                        }
-                        echo "</table>";
-                        mysqli_free_result($result);
+                            while ($record) {
+                                echo "<tr>";
+                                echo "<td>{$record['customer_number']}</td>";
+                                echo "<td>{$record['request_number']}</td>";
+                                echo "<td>{$record['description']}</td>";
+                                echo "<td>{$record['weight']}</td>";
+                                echo "<td>{$record['suburb']}</td>";
+                                echo "<td>{$record['preferredDate']}</td>";
+                                echo "<td>{$record['receiverSuburb']}</td>";
+                                echo "<td>{$record['receiverState']}</td>";
+                                echo "</tr>";
 
-                        echo "Total requests is ".$count." and total revenue is ".$total_revenue;
+                                $count++;
+                                echo $record['weight'];
+                                if ($record['weight'] <= 2) {
+                                    $total_revenue += 2;
+                                } elseif ($record['weight'] >= 2) {
+                                    $total_revenue += ($record['weight'] - 2) * 2 + 2;
+                                }
+                                $record = mysqli_fetch_assoc($result);
+                            }
+                            echo "</table>";
+                            mysqli_free_result($result);
+
+                            echo "Total requests is " . $count . " and total revenue is " . $total_revenue;
+                    }else {
+                            echo "<table class='table'>";
+                            echo "<tr>";
+
+                            //echo "<th>customer number</th>";
+                            echo "<th>customer number</th>";
+                            echo "<th>request number</th>";
+                            echo "<th>item description</th>";
+                            echo "<th>weight</th>";
+                            echo "<th>pick-up suburb</th>";
+                            echo "<th>preferred pick-up date</th>";
+                            echo "<th>delivery suburb</th>";
+                            echo "<th>state</th>";
+
+                            echo "</tr>";
+
+                            while ($record) {
+                                echo "<tr>";
+                                echo "<td>{$record['customer_number']}</td>";
+                                echo "<td>{$record['request_number']}</td>";
+                                echo "<td>{$record['description']}</td>";
+                                echo "<td>{$record['weight']}</td>";
+                                echo "<td>{$record['suburb']}</td>";
+                                echo "<td>{$record['preferredDate']}</td>";
+                                echo "<td>{$record['receiverSuburb']}</td>";
+                                echo "<td>{$record['receiverState']}</td>";
+                                echo "</tr>";
+
+                                $count++;
+                                echo $record['weight'];
+                                if ($record['weight'] <= 2) {
+                                    $total_revenue += 2;
+                                } elseif ($record['weight'] >= 2) {
+                                    $total_revenue += ($record['weight'] - 2) * 2 + 2;
+                                }
+                                $record = mysqli_fetch_assoc($result);
+                            }
+                            echo "</table>";
+                            mysqli_free_result($result);
+
+                            echo "Total requests is " . $count . " and total revenue is " . $total_revenue;
+                        }
                     } else
                         echo "<p>No record in the application table.</p>";
+
                 } else {
                     echo "<p>Select Unsuccessfull.</p>";
                 }
                 mysqli_close($conn);
+
             } else {
                 echo "<p>Connection Failed!</p>";
             }
