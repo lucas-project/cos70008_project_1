@@ -91,7 +91,7 @@ if($_SESSION["email"]) {
 
 
                 echo "Result will be filtered by pick-up date";
-                $query = "SELECT * FROM request WHERE preferredDate = '$selected_date'";
+                $query = "SELECT * FROM (request JOIN register ON request.customer_number = register.customer_number) WHERE preferredDate = '$selected_date'";
             } else {
                 $err_msg .= "<p>Please select date filter type.</p>";
             }
