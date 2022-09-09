@@ -13,11 +13,11 @@ CREATE TABLE request (
      receiverSuburb varchar(15) NOT NULL,
      receiverState ENUM('Australian Capital Territory','New South Wales','Northern Territory','Queensland','South Australia','Tasmania','Victoria','Western Australia'),
      customer_name varchar(20),
-     Customer_Id INT(10),
+     customer_number INT(10),
 
-     INDEX (Customer_Id,customer_name),
+     INDEX (customer_number,customer_name),
      PRIMARY KEY (request_number),
-     CONSTRAINT fk_customer  FOREIGN KEY (Customer_Id,customer_name) REFERENCES register(customer_number,customer_name)
+     CONSTRAINT fk_customer  FOREIGN KEY (customer_number,customer_name) REFERENCES register(customer_number,customer_name)
 
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

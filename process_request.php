@@ -136,16 +136,18 @@ session_start();
                             $price = ($weight-2)*2+2;
                         }
 
-                        $customer_number = $_SESSION['customer_number'];
+                        $customer_number = (int)$_SESSION['customer_number'];
                         $customer_name = $_SESSION['name'];
+                        $email = $_SESSION['email'];
                         echo $customer_number." and ".$customer_name;
 
                         $insert_query = "INSERT INTO request (
                          request_date, description, weight, address, suburb, preferredDate, preferredTime, 
-                         minute, receiver,receiverAddress, receiverSuburb, receiverState,customer_name)
+                         minute, receiver,receiverAddress, receiverSuburb, receiverState,customer_number,customer_name)
                                     VALUES (
                                             '$request_date','$description','$weight','$address','$suburb','$preferredDate','$preferred_time',
                                             '$preferred_minute','$receiver','$receiver_address','$receiver_suburb','$receiver_state',
+                                            (SELECT customer_number FROM register WHERE customer_number = '$customer_number'),
                                             (SELECT customer_name FROM register WHERE customer_name = '$customer_name')
                                             )";
                         $result = mysqli_query($conn, $insert_query);
