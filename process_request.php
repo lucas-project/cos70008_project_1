@@ -24,15 +24,7 @@ session_start();
     <body id="page-top">
 
             <?php
-            //import PHPMailer class
-            use PHPMailer\PHPMailer\PHPMailer;
-            use PHPMailer\PHPMailer\SMTP;
-            use PHPMailer\PHPMailer\Exception;
 
-            //include library files
-            require "PHPMailer/Exception.php";
-            require "PHPMailer/PHPMailer.php";
-            require "PHPMailer/SMTP.php";
 
 
             if($_SESSION["email"]) {
@@ -171,39 +163,31 @@ session_start();
                             include_once "nav.inc";
 
 
-                            //create new PHPMailer instance
-                            $mail = new PHPMailer;
 
-                            //configuration settings
-                            $mail->isSMTP();
-                            $mail->Host = 'smpt.gmail.com';
-                            $mail->SMTPAuth = true;
-                            $mail->Username = "lucas qin";
-                            $mail->Password = "qwertyuiop321";
-                            $mail->SMTPSecure = 'ssl';
-                            $mail->Port = 466;
-
-                            //sender
-                            $mail->setFrom('103527269.lucas.qin@gmail.com','lucas');
-
-                            //receiver
-                            $mail->addAddress($_SESSION["email"]);
-                            //email format
-                            $mail->isHTML(true);
-
-                            $mail->Subject = "Shipping request with ShipOnline";
-                            $bodyContent = "<b>Dear ".$_SESSION["name"].", thank you for using ShipOnline! Your request number is , the cost is . We will pick up the item at on .</b>";
-                            $mail->Body = $bodyContent;
-                            $header = "From:103527269@student.swin.edu.au \r\n";
+//                            $mail->setFrom('103527269.lucas.qin@gmail.com','lucas');
+//
+//
+//                            $mail->addAddress($_SESSION["email"]);
+//
+//                            $mail->isHTML(true);
+//
+//                            $mail->Subject = ;
+//                            $bodyContent = "<b>Dear ".$_SESSION["name"].", thank you for using ShipOnline! Your request number is , the cost is . We will pick up the item at on .</b>";
+//                            $mail->Body = $bodyContent;
+//                            $header =
                             //send email
-                            if ($mail->send()){
-                                echo "Email has been sent";
-                            }else{
-                                echo "Email failed to send. PHPMailer error:".$mail->ErrorInfo;
-                            }
+//                            if ($mail->send()){
+//                                echo "Email has been sent";
+//                            }else{
+//                                echo "Email failed to send. PHPMailer error:".$mail->ErrorInfo;
+//                            }
+                            $to = $_SESSION['email'];
+                            $subject = "Shipping request with ShipOnline";
+                            $message = "<b>Dear ".$_SESSION["name"].", thank you for using ShipOnline! Your request number is , the cost is . We will pick up the item at on .</b>";
+                            $header = "From:103527269@student.swin.edu.au \r\n";
+                            $return = "-r 103527269@student.swin.edu.au";
+                            mail($to,$subject,$message,$header,$return);
 
-
-                            
                             echo "<br><br><br><br><br><br><br><br><br>";
                             echo "<p>Thank you! Your request number is " . mysqli_insert_id($conn) . ". The cost number is $".$price.". We will pick up the item at ".$preferred_time.":".$preferred_minute." on ".$preferredDate.". </p>";
                             echo "<p>We have sent a confirmation email to ".$_SESSION["email"].".</p>";
