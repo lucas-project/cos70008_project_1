@@ -14,9 +14,10 @@ CREATE TABLE request (
      receiverState ENUM('Australian Capital Territory','New South Wales','Northern Territory','Queensland','South Australia','Tasmania','Victoria','Western Australia'),
      customer_name varchar(20),
      Customer_Id INT(10),
-     price INT(10),
-     INDEX par_ind (Customer_Id),
+
+     INDEX (Customer_Id,customer_name),
      PRIMARY KEY (request_number),
-     CONSTRAINT fk_customer FOREIGN KEY (Customer_Id)
-         REFERENCES register(customer_number)
+     CONSTRAINT fk_customer  FOREIGN KEY (Customer_Id,customer_name) REFERENCES register(customer_number,customer_name)
+
+
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

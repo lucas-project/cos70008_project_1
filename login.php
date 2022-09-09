@@ -17,14 +17,14 @@ if(count($_POST)>0) {
 
     require_once "settings.php";
     $con = mysqli_connect($host, $user, $pwd, $sql_db);
-    $result = mysqli_query($con,"SELECT * FROM register WHERE EMAIL='" . $_POST["email"] . "' and password = '". $_POST["password"]."'");
+    $result = mysqli_query($con,"SELECT * FROM register WHERE customer_number='" . $_POST["customer_number"] . "' and password = '". $_POST["password"]."'");
     $row  = mysqli_fetch_array($result);
     if(is_array($row)) {
 
         $_SESSION["email"] = $row['email'];
         $_SESSION["password"] = $row['password'];
         $_SESSION["customer_number"] = $row['customer_number'];
-        $_SESSION["name"] = $row['name'];
+        $_SESSION["name"] = $row['customer_name'];
     } else {
         $message = "Invalid Username or Password!";
     }
@@ -45,8 +45,8 @@ if(isset($_SESSION["email"])) {
             <div class="container col-lg-12">
                 <div class="row">
                     <div>
-                        <h4 class="card-text">Email:</h4><br>
-                        <input type="text" name="email" class="form-control" placeholder="please type in your email">
+                        <h4 class="card-text">Customer number:</h4><br>
+                        <input type="text" name="customer_number" class="form-control" placeholder="please type in your customer number">
                     </div>
                     <div>
                         <h4 class="card-text">Password:</h4><br>

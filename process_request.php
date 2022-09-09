@@ -87,9 +87,7 @@ session_start();
                     }
 
                     $preferred_minute = sanitise_input($_POST["minute"]);
-                    if ($preferred_minute == "")
-                        $err_msg .= "<p>Please enter exact minute for pickup.</p>";
-                    else if (!preg_match("/^[0-9]{1,60}$/", $preferred_minute))
+                    if (!preg_match("/^[0-9]{1,60}$/", $preferred_minute))
                         $err_msg .= "<p>Minute only should between 1 to 60.</p>";
 
                     $receiver = sanitise_input($_POST["receiver"]);
@@ -116,6 +114,8 @@ session_start();
                         $receiver_state = $_POST["receiver_state"];
                     }
 
+
+
                     if ($err_msg!=""){
                         echo $err_msg;
                         exit();
@@ -138,12 +138,15 @@ session_start();
 
                         $customer_number = $_SESSION['customer_number'];
                         $customer_name = $_SESSION['name'];
-                        $insert_query = "INSERT INTO request  (
+                        echo $customer_number." and ".$customer_name;
+
+                        $insert_query = "INSERT INTO request (
                          request_date, description, weight, address, suburb, preferredDate, preferredTime, 
-                         minute, receiver,receiverAddress, receiverSuburb, receiverState, Customer_Id, customer_name, price)
+                         minute, receiver,receiverAddress, receiverSuburb, receiverState,customer_name)
                                     VALUES (
                                             '$request_date','$description','$weight','$address','$suburb','$preferredDate','$preferred_time',
-                                            '$preferred_minute','$receiver','$receiver_address','$receiver_suburb','$receiver_state','$customer_number', '$customer_name','$price'
+                                            '$preferred_minute','$receiver','$receiver_address','$receiver_suburb','$receiver_state',
+                                            (SELECT customer_name FROM register WHERE customer_name = '$customer_name')
                                             )";
                         $result = mysqli_query($conn, $insert_query);
                         if ($result){
@@ -189,13 +192,13 @@ session_start();
                             echo "<p>Thank you! Your request number is " . mysqli_insert_id($conn) . ". The cost number is $".$price.". We will pick up the item at ".$preferred_time.":".$preferred_minute." on ".$preferredDate.". </p>";
                             echo "<p>We have sent a confirmation email to ".$_SESSION["email"].".</p>";
 
-
-
                             echo "<a type='button' class='btn btn-primary' href='index.php'>Return</a>";
                             echo "<br><br><br><br><br><br><br><br><br>";
-                            include_once "footer.inc";}
-                        else
+                            include_once "footer.inc";
+                        } else {
                             echo "<p>Failed to insert.</p>";
+                            echo "Errno: " . $conn->errno . ": ".$conn->error.".</br>";
+                        }
 
 
                         mysqli_close($conn);

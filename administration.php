@@ -145,7 +145,7 @@ if($_SESSION["email"]) {
                             echo "<td>{$record['receiverState']}</td>";
                             echo "</tr>";
                             $record = mysqli_fetch_assoc($result);
-                            $total_revenue+=(int)$record['price'];
+
 
                         }
                         echo "</table>";

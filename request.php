@@ -138,6 +138,16 @@ include_once "nav.inc";
     <br>
     <br>
     <br>
+
+
+                    <?php
+
+                        echo "<input type='hidden' name='customer_number' value='" . $_SESSION['customer_number'] . "'>";
+                        echo "<input type='hidden' name='customer_name' value='" . $_SESSION['name'] . "'>";
+                    ?>
+
+
+
                 <p id="price"></p>
     <button class="btn btn-success float-right btn-lg col-md-2" aria-label="Submit">&nbsp;&nbsp;&nbsp;&nbsp;Request&nbsp;&nbsp;&nbsp;&nbsp;</button>
     </form>

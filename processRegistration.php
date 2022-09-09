@@ -93,7 +93,7 @@ if(!$conn) {
         include_once "footer.inc";
 
     } else {
-        $query = "INSERT INTO $sql_table (name, email, password, phone) values ('$user_name','$email','$password','$phone')";
+        $query = "INSERT INTO $sql_table (customer_name, email, password, phone) values ('$user_name','$email','$password','$phone')";
         $result = mysqli_query($conn, $query);
         if(!$result) {
             echo "<p class=\'wrong\'>Something is wrong with ", $query, "</p>";
@@ -102,7 +102,7 @@ if(!$conn) {
             include_once "head.inc";
             include_once "nav.inc";
             echo "<br><br><br><br><br><br><br><br><br>";
-            echo "<p class=\"ok\">Dear ".$user_name.",</p> you are successfully registered into ShipOnline, and your customer number is ".$email.", which will be used to get into the system";
+            echo "<p class=\"ok\">Dear ".$user_name.",</p> you are successfully registered into ShipOnline, and your customer number is ".$conn->insert_id.", which will be used to get into the system";
             echo '<a href="login.php" type="button" class="btn btn-success">Login now</a>';
             echo "<br><br><br><br><br><br><br><br><br>";
             include_once "footer.inc";
