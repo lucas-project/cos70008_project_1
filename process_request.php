@@ -80,6 +80,8 @@ session_start();
                         $preferredDate = $_POST["preferredDate"];
                     }
 
+
+
                     if (!isset($_POST["preferred_time"]))
                         $err_msg .= "<p>Please select preferred day time of pickup.</p>";
                     else {
@@ -89,6 +91,10 @@ session_start();
                     $preferred_minute = sanitise_input($_POST["minute"]);
                     if (!preg_match("/^[0-9]{1,60}$/", $preferred_minute))
                         $err_msg .= "<p>Minute only should between 1 to 60.</p>";
+
+
+
+
 
                     $receiver = sanitise_input($_POST["receiver"]);
                     if ($receiver == "")
@@ -114,15 +120,20 @@ session_start();
                         $receiver_state = $_POST["receiver_state"];
                     }
 
+                    date_default_timezone_set('Australia/Melbourne');
+                    $request_date = date('y-m-d');
+                    $preferred_date_time = $preferredDate." ".$preferred_time.":".$preferred_minute;
+                    $preferTimeStamp = strtotime($preferred_date_time);
+                    $requestTimeStamp = strtotime($request_date);
 
+                    if ($preferTimeStamp-$requestTimeStamp < 86400){
+                        $err_msg .= "The preferred pick-up date and time need to be at least 24 hours after current time";
+                    }
 
                     if ($err_msg!=""){
                         echo $err_msg;
                         exit();
                     }
-
-                    date_default_timezone_set('Australia/Melbourne');
-                    $request_date = date('y-m-d');
                     // connect to db, create table and insert record
                     require_once("settings.php");
                     $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
@@ -135,6 +146,7 @@ session_start();
                         }else {
                             $price = ($weight-2)*2+2;
                         }
+
 
                         $customer_number = (int)$_SESSION['customer_number'];
                         $customer_name = $_SESSION['name'];

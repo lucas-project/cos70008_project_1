@@ -73,6 +73,8 @@ include_once "nav.inc";
             <br>
 
             <br>
+            <br>
+            <br>
             <h4>Pick-up Information</h4>
 
             <div class="row">
@@ -110,6 +112,7 @@ include_once "nav.inc";
                     <div class="col-lg-4 col-md-6 form-group"><label for="minute">Minute: </label><input type="text" id="minute" name="minute" class="form-control" /></div>
                     <p>*If you don't input minute property, we'll assume you want us to pick the item up at the exact hour.</p>
             </div>
+
             <h4>Delivery Information</h4>
 
             <div class="row">
@@ -137,27 +140,33 @@ include_once "nav.inc";
     <br>
     <br>
     <br>
-    <br>
-
 
                     <?php
 
                         echo "<input type='hidden' name='customer_number' value='" . $_SESSION['customer_number'] . "'>";
                         echo "<input type='hidden' name='customer_name' value='" . $_SESSION['name'] . "'>";
                     ?>
-
-
-
                 <p id="price"></p>
     <button class="btn btn-success float-right btn-lg col-md-2" aria-label="Submit">&nbsp;&nbsp;&nbsp;&nbsp;Request&nbsp;&nbsp;&nbsp;&nbsp;</button>
     </form>
         <br>
         <a type="button" class="btn btn-light" href="index.php">return home</a>
-
+        <p id="dateNow"></p>
 </section>
-<?php
 
-?>
+<!--<script type="text/javascript">-->
+<!--    let hourTime = document.getElementById("preferred_time");-->
+<!--    let minuteTime = document.getElementById("minute");-->
+<!--    let preferredDate = document.getElementById("preferredDate");-->
+<!--    let dateTimeString = preferredDate +' '+hourTime+':'+minuteTime+':'+'0';-->
+<!--    let timeFormat = new Date(dateTimeString);-->
+<!---->
+<!---->
+<!---->
+<!--    const timestamp = timeFormat.getTime();-->
+<!--    document.getElementById('dateNow').innerHTML = ;-->
+<!---->
+<!--</script>-->
 
 
 
