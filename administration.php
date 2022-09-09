@@ -114,6 +114,7 @@ if($_SESSION["email"]) {
 
                 if ($result) {
                     $total_revenue = 0;
+                    $count = 0;
                     $rowcount = mysqli_num_rows( $result );
                     echo "<h3>Administration Interface</h3>";
                     $record = mysqli_fetch_assoc($result);
@@ -135,7 +136,7 @@ if($_SESSION["email"]) {
 
                         while ($record) {
                             echo "<tr>";
-                            echo "<td>{$record['Customer_Id']}</td>";
+                            echo "<td>{$record['customer_number']}</td>";
                             echo "<td>{$record['request_number']}</td>";
                             echo "<td>{$record['description']}</td>";
                             echo "<td>{$record['weight']}</td>";
@@ -144,13 +145,20 @@ if($_SESSION["email"]) {
                             echo "<td>{$record['receiverSuburb']}</td>";
                             echo "<td>{$record['receiverState']}</td>";
                             echo "</tr>";
+
+                            $count ++;
+                            echo $record['weight'];
+                            if ($record['weight']<=2){
+                                $total_revenue += 2;
+                            }elseif ($record['weight']>=2){
+                                $total_revenue += ($record['weight']-2)*2+2;
+                            }
                             $record = mysqli_fetch_assoc($result);
-
-
                         }
                         echo "</table>";
                         mysqli_free_result($result);
-                        echo "Total requests is ".$rowcount." and total revenue is ".$total_revenue;
+
+                        echo "Total requests is ".$count." and total revenue is ".$total_revenue;
                     } else
                         echo "<p>No record in the application table.</p>";
                 } else {

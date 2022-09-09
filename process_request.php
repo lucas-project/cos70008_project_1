@@ -121,7 +121,7 @@ session_start();
                     }
 
                     date_default_timezone_set('Australia/Melbourne');
-                    $request_date = date('y-m-d');
+                    $request_date = date('y-m-d h:i:s');
                     $preferred_date_time = $preferredDate." ".$preferred_time.":".$preferred_minute;
                     $preferTimeStamp = strtotime($preferred_date_time);
                     $requestTimeStamp = strtotime($request_date);
