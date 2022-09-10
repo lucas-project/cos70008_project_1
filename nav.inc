@@ -9,7 +9,7 @@
             <ul class="navbar-nav ms-auto my-2 my-lg-0">
                 <li class="nav-item"><a class="nav-link" href="register.php">Registration</a></li>
                 <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="request.php">Book</a></li>
+                <li class="nav-item"><a class="nav-link" href="request.php">Request</a></li>
 
                 <li class="nav-item"><a class="nav-link" href="admin.php">Adminstration</a></li>
                 <li class="nav-item"><a class="nav-link" href="logout.php">logout</a></li>

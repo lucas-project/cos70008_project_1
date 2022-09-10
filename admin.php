@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <?php
@@ -8,7 +7,7 @@ include_once "head.inc";
 <?php
 include_once "nav.inc";
 ?>
-
+<br><br><br><br><br><br>
 <div class="jumbotron">
     <h2>ShipOnline System Administration Page</h2>
     <br>
@@ -51,7 +50,6 @@ include_once "nav.inc";
                                     </div>
                                 </div>
                     </form>
-
                 </div>
             </div>
         </div>

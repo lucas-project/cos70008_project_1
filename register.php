@@ -7,6 +7,7 @@ include_once "head.inc";
 <?php
 include_once "nav.inc";
 ?>
+<br><br><br><br><br><br>
 <div class="signup-form">
     <form action="" name="register" method="POST">
         <h2>Register</h2>
@@ -16,15 +17,19 @@ include_once "nav.inc";
                 <div class="col"><input type="text" class="form-control" name="user_name" placeholder="your user name" required="required"/></div>
             </div>
         </div>
+
         <div class="form-group">
             <input type="email" class="form-control" name="email" placeholder="email" required="required"/>
         </div>
+
         <div class="form-group">
             <input type="text" class="form-control" name="phone" placeholder="enter phone number" required="required">
         </div>
+
         <div class="form-group">
             <input type="password" class="form-control" name="password" placeholder="enter password" required="required">
         </div>
+
         <div class="form-group">
             <input type="password" class="form-control" name="confirm_password" placeholder="confirm password" required="required">
         </div>
@@ -32,6 +37,7 @@ include_once "nav.inc";
         <div class="form-group">
             <button type="submit" name="save" class="btn btn-success btn-lg btn-block">Register Now</button>
         </div>
+        <br>
         <div class="text-center">Already have an account? <a href="login.php">Sign in</a></div>
         <input type="hidden" name="submitted" value="true">
     </form>
