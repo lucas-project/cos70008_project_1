@@ -17,7 +17,7 @@ if(count($_POST)>0) {
 
     require_once "settings.php";
     $con = mysqli_connect($host, $user, $pwd, $sql_db);
-    $result = mysqli_query($con,"SELECT * FROM register WHERE customer_number='" . $_POST["customer_number"] . "' and password = '". $_POST["password"]."'");
+    $result = mysqli_query($con,"SELECT * FROM customer WHERE customer_number='" . $_POST["customer_number"] . "' and password = '". $_POST["password"]."'");
     $row  = mysqli_fetch_array($result);
     if(is_array($row)) {
 

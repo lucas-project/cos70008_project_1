@@ -3,7 +3,7 @@ session_start();
 ?>
 <?php
 if(!isset($_SESSION["email"])) {
-    header("Location:Login.php");
+    header("Location:login.php");
 }else {
 ?>
 <!DOCTYPE html>
@@ -281,8 +281,8 @@ include_once "nav.inc";
                                     VALUES (
                                             '$request_date','$description','$weight','$address','$suburb','$preferredDate',
                                             '$combine_min_hr','$receiver','$receiver_address','$receiver_suburb','$receiver_state',
-                                            (SELECT customer_number FROM register WHERE customer_number = '$customer_number'),
-                                            (SELECT customer_name FROM register WHERE customer_name = '$customer_name')
+                                            (SELECT customer_number FROM customer WHERE customer_number = '$customer_number'),
+                                            (SELECT customer_name FROM customer WHERE customer_name = '$customer_name')
                                             )";
             $result = mysqli_query($conn, $insert_query);
             if ($result) {

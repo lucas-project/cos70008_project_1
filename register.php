@@ -28,9 +28,7 @@ include_once "nav.inc";
         <div class="form-group">
             <input type="password" class="form-control" name="confirm_password" placeholder="confirm password" required="required">
         </div>
-        <div class="form-group">
-            <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a></label>
-        </div>
+
         <div class="form-group">
             <button type="submit" name="save" class="btn btn-success btn-lg btn-block">Register Now</button>
         </div>
@@ -104,7 +102,7 @@ if(isset($_POST['submitted'])) {
         echo "<p>Database connection failure</p>";
 
     } else {
-        $sql_table = "register";
+        $sql_table = "customer";
         $err_msg = "";
 
         $checkEmail = "SELECT * FROM " . $sql_table . " WHERE email='" . $_POST["email"] . "'";
