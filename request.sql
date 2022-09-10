@@ -6,8 +6,8 @@ CREATE TABLE request (
      address varchar(20) NOT NULL,
      suburb varchar(10) NOT NULL,
      preferredDate DATE,
-     preferredTime ENUM('7','8','9','10','11','12','13','14','15','16','17','18','19','20'),
-     minute varchar(10) NOT NULL,
+
+     time varchar(10) NOT NULL,
      receiver varchar(15) NOT NULL,
      receiverAddress varchar(20) NOT NULL,
      receiverSuburb varchar(15) NOT NULL,

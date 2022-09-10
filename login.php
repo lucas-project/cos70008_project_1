@@ -30,7 +30,7 @@ if(count($_POST)>0) {
     }
 }
 if(isset($_SESSION["email"])) {
-    header("Location:index.php");
+    header("Location:shiponline.php");
 }
 ?>
 <form name="frmUser" method="post" action="" align="center">
@@ -60,7 +60,7 @@ if(isset($_SESSION["email"])) {
         </div>
     </div>
 </form>
-<a href="registration.php" class="btn btn-success">Register here</a>
+<a href="register.php" class="btn btn-success">Register here</a>
 <br><br><br>
 <?php
 include_once "footer.inc";

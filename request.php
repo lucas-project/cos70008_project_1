@@ -1,6 +1,11 @@
 <?php
 session_start();
 ?>
+<?php
+if(!isset($_SESSION["email"])) {
+    header("Location:Login.php");
+}else {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +30,6 @@ session_start();
 <?php
 include_once "nav.inc";
 ?>
-
 <!--form-->
 <section class="container mt-5">
     <br>
@@ -49,7 +53,7 @@ include_once "nav.inc";
         <!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-item-information-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
         <h4>Personal Information</h4>
         <hr>
-        <form name="info" action="process_request.php" method="post">
+        <form name="info" action="" method="post">
             <div class="row"></div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 form-group"><label for="description">Description:</label><input type="text" id="description" name="description" class="form-control" /></div>
@@ -110,7 +114,7 @@ include_once "nav.inc";
                         </select>
                     </div>
                     <div class="col-lg-4 col-md-6 form-group"><label for="minute">Minute: </label><input type="text" id="minute" name="minute" class="form-control" /></div>
-                    <p>*If you don't input minute property, we'll assume you want us to pick the item up at the exact hour.</p>
+                    <p>*If you don't input minute property, we'll assume you want us to pick the item up at the exact hour, except for 7 am, default pick up time is 7:30 am.</p>
             </div>
 
             <h4>Delivery Information</h4>
@@ -141,34 +145,175 @@ include_once "nav.inc";
     <br>
     <br>
 
-                    <?php
-
-                        echo "<input type='hidden' name='customer_number' value='" . $_SESSION['customer_number'] . "'>";
-                        echo "<input type='hidden' name='customer_name' value='" . $_SESSION['name'] . "'>";
-                    ?>
                 <p id="price"></p>
     <button class="btn btn-success float-right btn-lg col-md-2" aria-label="Submit">&nbsp;&nbsp;&nbsp;&nbsp;Request&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <input type="hidden" name="submitted" value="true">
     </form>
         <br>
-        <a type="button" class="btn btn-light" href="index.php">return home</a>
+        <a type="button" class="btn btn-light" href="shiponline.php">return home</a>
         <p id="dateNow"></p>
 </section>
+<?php
+    if(isset($_POST['submitted'])) {
+        $err_msg = "";
+        function sanitise_input($data)
+        {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
 
-<!--<script type="text/javascript">-->
-<!--    let hourTime = document.getElementById("preferred_time");-->
-<!--    let minuteTime = document.getElementById("minute");-->
-<!--    let preferredDate = document.getElementById("preferredDate");-->
-<!--    let dateTimeString = preferredDate +' '+hourTime+':'+minuteTime+':'+'0';-->
-<!--    let timeFormat = new Date(dateTimeString);-->
-<!---->
-<!---->
-<!---->
-<!--    const timestamp = timeFormat.getTime();-->
-<!--    document.getElementById('dateNow').innerHTML = ;-->
-<!---->
-<!--</script>-->
+        // validate-name
+        $description = sanitise_input($_POST["description"]);
+        if ($description == "")
+            $err_msg .= "<p>Please enter description of the item.</p>";
+        else if (!preg_match("/^[a-zA-Z., ]{2,100}$/", $description))
+            $err_msg .= "<p>description only contains letters between 2 to 100.</p>";
+
+        if (!isset($_POST["weight"]))
+            $err_msg .= "<p>Please select item's weight.</p>";
+        else {
+            $weight = $_POST["weight"];
+        }
+
+        $address = sanitise_input($_POST["address"]);
+        if (!preg_match("/^[\w',-\\/.\s]{2,40}$/", $address))
+            $err_msg .= "<p>address should contain letters and numbers between 2 and 40.</p>";
+
+        $suburb = sanitise_input($_POST["suburb"]);
+        if ($suburb == "")
+            $err_msg .= "<p>Please enter your suburb.</p>";
+        else if (!preg_match("/^[a-zA-Z ]{2,20}$/", $suburb))
+            $err_msg .= "<p>Suburb only contains letters between 2 and 20.</p>";
 
 
+        if (!isset($_POST["preferredDate"]))
+            $err_msg .= "<p>Please select preferred date of pickup.</p>";
+        else {
+            $preferredDate = $_POST["preferredDate"];
+        }
+
+        if (!isset($_POST["preferred_time"]))
+            $err_msg .= "<p>Please select preferred day time of pickup.</p>";
+        else {
+            $preferred_time = $_POST["preferred_time"];
+
+        }
+
+        $preferred_minute = sanitise_input($_POST["minute"]);
+        if ($preferred_minute == "" && (int)$preferred_time == 7) {
+            $preferred_minute = 30;
+
+        } elseif ($preferred_minute == "" && (int)$preferred_time != 7) {
+            $preferred_minute = 0;
+
+        } elseif (!preg_match("/^[0-9]{1,60}$/", $preferred_minute))
+            $err_msg .= "<p>Minute only should between 1 to 60.</p>";
+
+        $combine_min_hr = $preferred_time . ":" . $preferred_minute;
+
+        $receiver = sanitise_input($_POST["receiver"]);
+        if ($receiver == "")
+            $err_msg .= "<p>Please enter receiver's name.</p>";
+        else if (!preg_match("/^[a-zA-Z]{1,15}$/", $receiver))
+            $err_msg .= "<p>Receiver's name should between 1 to 15.</p>";
+
+        $receiver_address = sanitise_input($_POST["receiver_address"]);
+        if ($receiver_address == "")
+            $err_msg .= "<p>Please enter receiver's address.</p>";
+        else if (!preg_match("/^[\w',-\\/.\s]{2,40}$/", $receiver_address))
+            $err_msg .= "<p>Receiver's address should contain letters and numbers between 2 and 40.</p>";
+
+        $receiver_suburb = sanitise_input($_POST["receiver_suburb"]);
+        if ($receiver_suburb == "")
+            $err_msg .= "<p>Please enter receiver's name.</p>";
+        else if (!preg_match("/^[a-zA-Z ]{2,15}$/", $receiver_suburb))
+            $err_msg .= "<p>Receiver's suburb should between 2 to 15.</p>";
+
+        if (!isset($_POST["receiver_state"]))
+            $err_msg .= "<p>Please select receiver's state.</p>";
+        else {
+            $receiver_state = $_POST["receiver_state"];
+        }
+
+        date_default_timezone_set('Australia/Melbourne');
+        $request_date = date('y-m-d h:i:s');
+        $preferred_date_time = $preferredDate . " " . $preferred_time . ":" . $preferred_minute;
+        $preferTimeStamp = strtotime($preferred_date_time);
+        $requestTimeStamp = strtotime($request_date);
+
+        if ($preferTimeStamp - $requestTimeStamp < 86400) {
+            $err_msg .= "<p>The preferred pick-up date and time need to be at least 24 hours after current time</p><br>";
+        }
+
+        if ($preferred_time == "7" && (int)$preferred_minute < 30) {
+            $err_msg .= "<p>Sorry, we can't start delivery before 7:30 am, our business time is between 7:30 to 20:30.</p><br>";
+        } elseif ($preferred_time == "20" && (int)$preferred_minute > 30) {
+            $err_msg .= "<p>Sorry, we closed at 20:30, our business time is between 7:30 to 20:30.</p><br>";
+        }
+
+        if ($err_msg != "") {
+            echo $err_msg;
+            exit();
+        }
+        // connect to db, create table and insert record
+        require_once("settings.php");
+        $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+
+        if (!$conn) {
+            echo "<p>Connection is failed.</p>";
+        } else {
+            if ((int)$weight <= 2) {
+                $price = 2;
+            } else {
+                $price = ($weight - 2) * 2 + 2;
+            }
+
+            $customer_number = (int)$_SESSION['customer_number'];
+            $customer_name = $_SESSION['name'];
+            $email = $_SESSION['email'];
+
+
+            $insert_query = "INSERT INTO request (
+                         request_date, description, weight, address, suburb, preferredDate,
+                         time, receiver,receiverAddress, receiverSuburb, receiverState,customer_number,customer_name)
+                                    VALUES (
+                                            '$request_date','$description','$weight','$address','$suburb','$preferredDate',
+                                            '$combine_min_hr','$receiver','$receiver_address','$receiver_suburb','$receiver_state',
+                                            (SELECT customer_number FROM register WHERE customer_number = '$customer_number'),
+                                            (SELECT customer_name FROM register WHERE customer_name = '$customer_name')
+                                            )";
+            $result = mysqli_query($conn, $insert_query);
+            if ($result) {
+
+
+                $to = $_SESSION['email'];
+                $subject = "Shipping request with ShipOnline";
+                $message = "<b>Dear " . $_SESSION["name"] . ", thank you for using ShipOnline! Your request number is , the cost is . We will pick up the item at on .</b>";
+                $header = "From:103527269@student.swin.edu.au \r\n";
+                $return = "-r 103527269@student.swin.edu.au";
+                mail($to, $subject, $message, $header, $return);
+
+                echo "<br><br><br><br><br><br><br><br><br>";
+                echo "<p>Thank you! Your request number is " . mysqli_insert_id($conn) . ". The cost number is $" . $price . ". We will pick up the item at " . $preferred_time . ":" . $preferred_minute . " on " . $preferredDate . ". </p>";
+                echo "<p>We have sent a confirmation email to " . $_SESSION["email"] . ".</p>";
+
+                echo "<a type='button' class='btn btn-primary' href='shiponline.php'>Return</a>";
+                echo "<br><br><br><br><br><br><br><br><br>";
+
+            } else {
+                echo "<p>Failed to insert.</p>";
+                echo "Errno: " . $conn->errno . ": " . $conn->error . ".</br>";
+            }
+
+            mysqli_close($conn);
+        }
+    }
+
+    ?><?php
+}
+?>
 
 <!-- Footer-->
 <footer class="bg-light py-5">

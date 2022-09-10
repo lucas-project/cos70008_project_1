@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php
@@ -10,10 +8,6 @@ include_once "head.inc";
 <?php
 include_once "nav.inc";
 ?>
-<?php
-if($_SESSION["email"]) {
-?>
-<br><br><br><br>Welcome back,  <?php echo $_SESSION["name"]; ?>. <br>Click here to <a href="logout.php" tite="Logout" class="btn btn-danger">Logout.</a>
 
 <div class="jumbotron">
     <h2>ShipOnline System Administration Page</h2>
@@ -71,7 +65,7 @@ if($_SESSION["email"]) {
     <br>
     <br>
     <br>
-    <p><a class="nav-link" href="index.php"><- return to homepage</a></p>
+    <p><a class="nav-link" href="shiponline.php"><- return to homepage</a></p>
     <?php
     $query = "";
     $err_msg = "";
@@ -221,12 +215,7 @@ if($_SESSION["email"]) {
     ?>
 
     <?php
-    }else {
-        echo "<h3>Please login first.</h3>";
-        echo '<a href="login.php">Login</a>';
-        header("location:login.php");
-        exit();
-    }
+
     ?>
     <?php
     include_once "footer.inc";
