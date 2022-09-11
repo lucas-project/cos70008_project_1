@@ -1,5 +1,9 @@
+
 @charset "UTF-8";
 /*!
+* shiponline website style file
+* student name: Lucas Qin
+* student number: 103527269
 * Start Bootstrap - Creative v7.0.6 (https://startbootstrap.com/theme/creative)
 * Copyright 2013-2022 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-creative/blob/master/LICENSE)
@@ -11357,14 +11361,14 @@ hr.divider-light {
     background-color: transparent;
   }
   #mainNav .navbar-brand {
-    color: rgba(174, 187, 143, 0.8);
-    font-size: 1.8rem;
+    color: rgba(17, 18, 15, 0.8);
+    font-size: 2.8rem;
   }
   #mainNav .navbar-brand:hover {
     color:rgba(17, 78, 59, 0.7);
   }
   #mainNav .navbar-nav .nav-item .nav-link {
-    color: rgba(174, 187, 143, 0.8);
+    color: rgba(17, 18, 15, 0.8);
     padding: 0 1rem;
   }
   #mainNav .navbar-nav .nav-item .nav-link:hover {
@@ -11375,16 +11379,16 @@ hr.divider-light {
   }
   #mainNav.navbar-shrink {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    background-color: rgba(239, 201, 92, 0.3);
+    background-color: rgba(17, 18, 15, 0.8);
   }
   #mainNav.navbar-shrink .navbar-brand {
-    color: rgba(174, 187, 143, 0.8);
+    color: rgba(17, 18, 15, 0.8);
   }
   #mainNav.navbar-shrink .navbar-brand:hover {
     color: #f4623a;
   }
   #mainNav.navbar-shrink .navbar-nav .nav-item .nav-link {
-    color: rgba(174, 187, 143, 0.8);
+    color: rgba(17, 18, 15, 0.8);
   }
   #mainNav.navbar-shrink .navbar-nav .nav-item .nav-link:hover {
     color: #f4623a;

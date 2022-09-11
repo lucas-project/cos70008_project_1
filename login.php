@@ -1,4 +1,13 @@
+<!--login page-->
+<!--For users to login to their accounts by customer number and password-->
+<!--if login success, redirect to request page-->
+<!---->
+<!--@author Lucas Qin, student ID is 103527269.-->
+<!--@version  php 8.1.6-->
+<!--@date 10/09/2022-->
+
 <?php
+//start session to get login user's info
 ob_start();
 session_start();
 ?>
@@ -9,18 +18,18 @@ session_start();
     include_once "nav.inc";
     ?>
     <body>
-
     <?php
 
 $message="";
 if(count($_POST)>0) {
-
+    //connect to database
     require_once "settings.php";
     $con = mysqli_connect($host, $user, $pwd, $sql_db);
     $result = mysqli_query($con,"SELECT * FROM customer WHERE customer_number='" . $_POST["customer_number"] . "' and password = '". $_POST["password"]."'");
+    //get data from database as an array
     $row  = mysqli_fetch_array($result);
+    //if login successfully, store user's info in browser's SESSION
     if(is_array($row)) {
-
         $_SESSION["email"] = $row['email'];
         $_SESSION["password"] = $row['password'];
         $_SESSION["customer_number"] = $row['customer_number'];
@@ -29,10 +38,12 @@ if(count($_POST)>0) {
         $message = "Invalid Username or Password!";
     }
 }
+//if logged in, redirect to request page
 if(isset($_SESSION["email"])) {
-    header("Location:shiponline.php");
+    header("Location:request.php");
 }
 ?>
+<!--    a form that accept user's input to log in-->
 <form name="frmUser" method="post" action="" align="center">
     <div class="message"><?php if($message!="") { echo $message; } ?></div>
     <div class="card">

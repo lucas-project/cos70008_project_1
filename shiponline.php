@@ -1,3 +1,8 @@
+<!--shiponline page-->
+<!--Homepage of the website-->
+<!--users can direct to admin page, login page, register page, request page-->
+<!--@author Lucas Qin, student ID is 103527269.-->
+<!--@date 10/09/2022-->
 <?php
 session_start();
 ?>
@@ -10,7 +15,7 @@ include_once "head.inc";
     <?php
     include_once "nav.inc";
     ?>
-        <!-- Masthead-->
+        <!-- main content-->
         <header class="masthead">
             <div class="container px-4 px-lg-5 h-100">
                 <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">

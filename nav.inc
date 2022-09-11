@@ -1,4 +1,8 @@
-<!-- Navigation-->
+<!--navigation bar component-->
+<!--HTML's navigation component for all pages-->
+<!---->
+<!--@author Lucas Qin, student ID is 103527269.-->
+<!--@date 10/09/2022-->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3" id="mainNav">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="shiponline.php">ShopOnline</a>
